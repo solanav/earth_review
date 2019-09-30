@@ -1,0 +1,8 @@
+{
+  "name": "life-review",
+  "version": "0.0.1",
+  "description": "write reviews of your experience on earth",
+  "dependencies": {
+    "socket.io": "^2.3.0"
+  }
+}

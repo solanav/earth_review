@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Earth Review</title>
+    <meta name="description" content="Read or write about your experience on earth!">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic">
+    <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/fonts/simple-line-icons.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+    <script>
+        $(function () {
+            var socket = io();
+            var start =
+                "<div class=\"card\"style=\"width: 18rem;\"><div class=\"card-body\"><h5 class=\"card-title\">{0}</h5><h6 class=\"card-subtitle mb-2 text-muted\">{1}</h6><p class=\"card-text\">{2}</p></div></div>";
+
+            $('form').submit(function (e) {
+                e.preventDefault();
+
+                socket.emit('review uploaded',
+                    $('#fname').val(),
+                    $('#lname').val(),
+                    $('#experience').val(),
+                    $('#city').val(),
+                    $('#country').val(),
+                    $('#years').val(),
+                    $('#text').val()
+                );
+
+                return false;
+            });
+
+            socket.on('review uploaded', function (fname, lname, experience, city, country, years, text) {
+                var mod = start
+                    .replace("{0}", fname + " " + lname)
+                    .replace("{1}", city + ", " + country + " [" + years + "]")
+                    .replace("{2}", text);
+
+                $('#append-here').append(mod);
+            });
+        });
+    </script>
+
+    <style>
+        @media (min-width: 34em) {
+            .card-columns {
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
+                column-count: 2;
+            }
+        }
+
+        @media (min-width: 48em) {
+            .card-columns {
+                -webkit-column-count: 3;
+                -moz-column-count: 3;
+                column-count: 3;
+            }
+        }
+
+        @media (min-width: 62em) {
+            .card-columns {
+                -webkit-column-count: 4;
+                -moz-column-count: 4;
+                column-count: 4;
+            }
+        }
+
+        @media (min-width: 75em) {
+            .card-columns {
+                -webkit-column-count: 5;
+                -moz-column-count: 5;
+                column-count: 5;
+            }
+        }
+    </style>
+</head>
+
+<body id="page-top">
+    <header class="d-flex masthead" style="background-image: url(/assets/img/bg-masthead.jpeg);"></header>
+    <div class="container" style="height: 100%; width: 80%; display:flex;">
+        <form style="margin: auto">
+            <h1>Write a review</h1>
+            <hr style="margin: 3em 0 3em 0">
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="validationDefault01">First name</label>
+                    <input id="fname" type="text" class="form-control" id="validationDefault01" placeholder="First name"
+                        required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationDefault02">Last name</label>
+                    <input id="lname" type="text" class="form-control" id="validationDefault02" placeholder="Last name"
+                        required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationDefaultUsername">General Experience</label>
+                    <select id="experience" class="form-control">
+                        <option>Positive</option>
+                        <option>Negative</option>
+                        <option>Both</option>
+                        <option>Neither</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="validationDefault03">City</label>
+                    <input id="city" type="text" class="form-control" id="validationDefault03" placeholder="City"
+                        required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationDefault04">Country</label>
+                    <input id="country" type="text" class="form-control" id="validationDefault04" placeholder="Country"
+                        required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationDefault05">Years of experience</label>
+                    <input id="years" type="number" class="form-control" id="validationDefault05" placeholder="Years"
+                        required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="text">Review</label>
+                <textarea class="form-control" id="text" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                    <label class="form-check-label" for="invalidCheck2">
+                        I hereby grant permission to be recorded through the webcam by Earth Review©®™
+                    </label>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit form</button>
+        </form>
+    </div>
+
+    <div class="card-columns" id="append-here" style="width: 80%; margin: auto; display: flex; flex-flow: row; justify-content: space-evenly; flex-wrap: wrap">
+        <!-- Data -->
+    </div>
+
+    <footer class="footer text-center">
+        <div class="container">
+            <ul class="list-inline mb-5">
+                <li class="list-inline-item">&nbsp;<a class="text-white social-link rounded-circle"
+                        href="https://www.linkedin.com/in/solanav/"><i class="icon-social-linkedin"></i></a></li>
+                <li class="list-inline-item">&nbsp;<a class="text-white social-link rounded-circle"
+                        href="https://twitter.com/3os76dou4hpp"><i class="icon-social-twitter"></i></a></li>
+                <li class="list-inline-item">&nbsp;<a class="text-white social-link rounded-circle"
+                        href="https://github.com/solanav"><i class="icon-social-github"></i></a></li>
+            </ul>
+            <p class="text-muted mb-0 small">Copyright &nbsp;© Earth Review 2019</p>
+        </div><a class="js-scroll-trigger scroll-to-top rounded" href="#page-top"><i class="fa fa-angle-up"></i></a>
+    </footer>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="/assets/js/script.min.js"></script>
+</body>
+
+</html>
