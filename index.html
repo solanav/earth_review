@@ -35,16 +35,36 @@
                     $('#text').val()
                 );
 
+                $('#fname').val('');
+                $('#lname').val('');
+                $('#experience').val('');
+                $('#city').val('');
+                $('#country').val('');
+                $('#years').val('');
+                $('#text').val('');
+
                 return false;
             });
 
-            socket.on('review uploaded', function (fname, lname, experience, city, country, years, text) {
+            let appe = (fname, lname, experience, city, country, years, text) => {
                 var mod = start
                     .replace("{0}", fname + " " + lname)
                     .replace("{1}", city + ", " + country + " [" + years + "]")
                     .replace("{2}", text);
 
                 $('#append-here').append(mod);
+            }
+
+            socket.on('review uploaded', function (fname, lname, experience, city, country, years, text) {
+                appe(fname, lname, experience, city, country, years, text);
+            });
+
+            socket.on('initial load', data_list => {
+                $('#append-here').html("");
+
+                data_list.forEach(x => {
+                    appe(x.fname, x.lname, x.experience, x.city, x.country, x.years, x.text);
+                });
             });
         });
     </script>
@@ -136,7 +156,7 @@
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
                     <label class="form-check-label" for="invalidCheck2">
-                        I hereby grant permission to be recorded through the webcam by Earth Review©®™
+                        I hereby grant permission to be recorded through my webcam by Earth Review©®™
                     </label>
                 </div>
             </div>
@@ -144,9 +164,11 @@
         </form>
     </div>
 
-    <div class="card-columns" id="append-here" style="width: 80%; margin: auto; display: flex; flex-flow: row; justify-content: space-evenly; flex-wrap: wrap">
-        <!-- Data -->
-    </div>
+    <section style="width: 80%; margin: auto">
+            <div class="card-columns" id="append-here">
+                <!-- Data -->
+            </div>
+    </section>
 
     <footer class="footer text-center">
         <div class="container">
