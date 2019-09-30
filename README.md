@@ -2,4 +2,4 @@
 
 # Earth review
 
-Leave your review of the experience you've had on earth. Do you have a positive or a negative opinion about life on earth? Would you recommend it to others?
+Leave a review of the experience you've had on earth. Do you have a positive or a negative opinion about life on earth? Would you recommend it to others?
